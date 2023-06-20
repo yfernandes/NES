@@ -7,7 +7,7 @@ describe("ProjectionHandler", () => {
 		class SampleEvent implements IEvent {}
 
 		class SampleClass {
-			public test: string = "JustATest";
+			public test = "JustATest";
 		}
 
 		const decorator = ProjectionHandler(SampleEvent);

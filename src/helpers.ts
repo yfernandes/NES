@@ -3,14 +3,14 @@ import { IAggregateRoot } from "./domain/aggregateRoot";
 import { IEvent } from "./eventSourcing";
 
 /**
- * Returns a symbol used to created methods that handle events
+ * Returns a symbol used to create methods that handle events.
  *
- * @export
- * @param {(DomainEvent & Type)} e
- * @returns {symbol}
+ * @param {IEvent & Type} event - The event object.
+ * @returns {symbol} - The symbol used to create event handling methods.
  */
-export function Handle(e: IEvent & Type): symbol {
-	return Symbol.for(e.prototype.constructor.name);
+export function Handle(event: IEvent & Type): symbol {
+	const eventName = event.prototype.constructor.name;
+	return Symbol.for(eventName);
 }
 
 /**
@@ -33,7 +33,7 @@ export function Apply(e: IEvent & Type): symbol {
  * @param event The event
  */
 export function CopyPropsToUnderscoreProp(
-	aggregate: IAggregateRoot<any>,
+	aggregate: IAggregateRoot,
 	event: IEvent
 ): void {
 	Reflect.ownKeys(event).forEach((k) => {

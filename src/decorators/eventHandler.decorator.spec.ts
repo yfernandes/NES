@@ -7,7 +7,7 @@ describe("EventHandler", () => {
 		class SampleEvent implements IEvent {}
 
 		class SampleClass {
-			public test: string = "JustATest";
+			public test = "JustATest";
 		}
 
 		const decorator = EventHandler(SampleEvent);

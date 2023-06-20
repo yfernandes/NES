@@ -6,7 +6,7 @@ import { IEvent, Constants } from "../index";
  *
  * The decorated class must implement the `IEventHandler` interface.
  *
- * @param events one or more event *types* to be handled by this handler.
+ * @param events - One or more event *types* to be handled by this handler.
  *
  * @see https://docs.nestjs.com/recipes/cqrs#events
  */

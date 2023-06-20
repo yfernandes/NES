@@ -1,4 +1,5 @@
-﻿import { ConcreteType } from "@tokilabs/lang";
+﻿// TODO: Find another solution to replace @tokilabs/lang
+import { ConcreteType } from "@tokilabs/lang";
 
 import { Constants } from "../symbols";
 import { NesConfig } from "../config";
@@ -15,7 +16,7 @@ export interface IDomainEvent {}
 
 /**
  * Registers the class as a Domain Event
- * @param name The name of the event
+ * @param name - The name of the event
  */
 export function DomainEvent(
 	fqn: string,

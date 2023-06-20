@@ -6,7 +6,7 @@ import { IEvent, Constants } from "../index";
  *
  * The decorated class must implement the `IProjectionHandler` interface.
  *
- * @param event projection *type* to be handled by this handler.
+ * @param event - Projection *type* to be handled by this handler.
  *
  * @see https://docs.nestjs.com/recipes/cqrs#commands
  */
