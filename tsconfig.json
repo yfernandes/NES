@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "ESNext",
+		"moduleResolution": "node",
 		"declaration": true,
 		"noImplicitAny": false,
 		"noUnusedLocals": false,
@@ -8,10 +9,12 @@
 		"noLib": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"target": "es6",
+		"target": "ES2021",
 		"sourceMap": true,
-		"outDir": "./dist"
+		"outDir": "./dist",
+		"allowSyntheticDefaultImports": true,
+		"incremental": true
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "**/*.spec.ts"]
+	"include": ["src/**/*", ".eslintrc.cjs"],
+	"exclude": ["node_modules"]
 }
