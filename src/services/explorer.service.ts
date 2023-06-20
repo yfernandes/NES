@@ -45,7 +45,7 @@ export class ExplorerService<EventBase extends IEvent = IEvent> {
 
 	filterProvider(
 		wrapper: InstanceWrapper,
-		metadataKey: Symbol
+		metadataKey: symbol
 	): Type<any> | undefined {
 		const { instance } = wrapper;
 		if (!instance) {
@@ -56,7 +56,7 @@ export class ExplorerService<EventBase extends IEvent = IEvent> {
 
 	extractMetadata(
 		instance: Record<string, any>,
-		metadataKey: Symbol
+		metadataKey: symbol
 	): Type<any> {
 		if (!instance.constructor) {
 			return;

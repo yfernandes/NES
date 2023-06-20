@@ -1,12 +1,15 @@
-import { Guid } from "@tokilabs/lang";
+// TODO: Find another solution to replace @tokilabs/lang
 
-import { Identity, IAggregateRoot } from "../domain";
+import { IAggregateRoot } from "../domain";
+import { UUIDIdentity } from "../domain/identity/GuidIdentity";
+import { IIdentity } from "../domain/identity/Identity.interface";
 import { IEvent } from "./event.interface";
 
+// Todo: Make IEventEnvelope generic
 export interface IEventEnvelope {
-	readonly id: Guid;
+	readonly id: UUIDIdentity;
 	readonly aggregateType: string;
-	readonly aggregateId: Identity<any>;
+	readonly aggregateId: IIdentity<any>;
 	readonly aggregateVersion: number;
 	/**
 	 * Fully Qualified Event Name
@@ -17,8 +20,8 @@ export interface IEventEnvelope {
 	 * @memberof IEventEnvelope
 	 */
 	readonly eventType: string;
-	readonly event: Object;
-	readonly metadata?: Object;
+	readonly event: Record<string, any>;
+	readonly metadata?: Record<string, any>;
 	readonly createdAt: Date;
 }
 
@@ -31,13 +34,13 @@ export class EventEnvelope implements IEventEnvelope {
 	public readonly createdAt: Date;
 
 	constructor(
-		public readonly id: Guid,
+		public readonly id: UUIDIdentity,
 		public readonly aggregateType: string,
-		public readonly aggregateId: Identity<any>,
+		public readonly aggregateId: IIdentity<any>,
 		public readonly aggregateVersion: number,
 		public readonly eventType: string,
 		public readonly event: IEvent,
-		public readonly metadata?: Object,
+		public readonly metadata?: Record<string, any>,
 		createdAt?: Date
 	) {
 		this.createdAt = createdAt || new Date();
@@ -46,10 +49,10 @@ export class EventEnvelope implements IEventEnvelope {
 	public static wrap(
 		aggregate: IAggregateRoot<any>,
 		event: IEvent,
-		metadata?: Object
+		metadata?: Record<string, any>
 	): EventEnvelope {
 		return new EventEnvelope(
-			new Guid(),
+			new UUIDIdentity(),
 			String(Reflect.getMetadata(Symbol.for("FQN"), aggregate)),
 			aggregate.id,
 			aggregate.version,

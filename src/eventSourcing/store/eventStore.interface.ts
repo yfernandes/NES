@@ -1,7 +1,9 @@
+// TODO: Find another solution to replace @tokilabs/lang
 import { Guid, NanoGuid, Type } from "@tokilabs/lang";
 
-import { AggregateRoot, Identity } from "../../domain";
+import { AggregateRoot } from "../../domain";
 import { EventEnvelope, IEvent } from "..";
+import { IIdentity } from "../../domain/identity/Identity.interface";
 
 export const IEventStore = Symbol("IEventStore");
 export interface IEventStore {
@@ -13,8 +15,16 @@ export interface IEventStore {
 	 * @memberof IEventStore
 	 */
 	save(aggregate: AggregateRoot<any>): Promise<number>;
+
+	/**
+	 * Retrieves all event envelopes associated with the given aggregate ID and type.
+	 *
+	 * @param {Type} aggregateType - The type of the aggregate to retrieve events for.
+	 * @param {IIdentity<Guid | NanoGuid> | Guid | NanoGuid} aggregateId - The ID of the aggregate to retrieve events for.
+	 * @return {Promise<EventEnvelope[]>} A promise that resolves with an array of event envelopes.
+	 */
 	getEventsByAggregate(
 		aggregateType: Type,
-		aggregateId: Identity<Guid | NanoGuid> | Guid | NanoGuid
+		aggregateId: IIdentity<Guid | NanoGuid> | Guid | NanoGuid
 	): Promise<EventEnvelope[]>;
 }
