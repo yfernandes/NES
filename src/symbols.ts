@@ -5,6 +5,7 @@ export const Constants = {
 
 	// Config
 	MessageTransporter: Symbol.for("MESSAGE_TRANSPORTER"),
+	ModuleRef: Symbol.for("MODULE_REF"),
 
 	// CommandHandlers
 	EventsDefinitionMetadata: Symbol.for("EVENT_DEFINITION"),

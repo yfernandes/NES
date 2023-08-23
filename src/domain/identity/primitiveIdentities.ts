@@ -1,4 +1,4 @@
-import { IIdentity } from "./Identity.abstract";
+import { Identity } from "./Identity.abstract";
 
 export class IntIdentity extends Identity<number> {
 	constructor(value: number) {

@@ -23,5 +23,5 @@ export interface IMessageTransport {
 	/**
 	 * Publishes a message to all subscribers
 	 */
-	publish(topic: string, message: any): void;
+	publish(topic: string, message: any): Promise<any>;
 }

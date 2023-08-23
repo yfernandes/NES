@@ -4,6 +4,8 @@ import { Guid, NanoGuid, Type } from "@tokilabs/lang";
 import { AggregateRoot } from "../../domain";
 import { EventEnvelope, IEvent } from "..";
 import { IIdentity } from "../../domain/identity/Identity.interface";
+import { UUID } from "../../domain/identity/providers/UUID";
+import { NanoId } from "../../domain/identity/providers/NanoId";
 
 export const IEventStore = Symbol("IEventStore");
 export interface IEventStore {
@@ -25,6 +27,6 @@ export interface IEventStore {
 	 */
 	getEventsByAggregate(
 		aggregateType: Type,
-		aggregateId: IIdentity<Guid | NanoGuid> | Guid | NanoGuid
+		aggregateId: IIdentity<UUID | NanoId>
 	): Promise<EventEnvelope[]>;
 }

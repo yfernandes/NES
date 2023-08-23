@@ -1,21 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import * as EventStoreClient from "node-eventstore-client";
-import {
-	Guid,
-	Type,
-	requireByFQN,
-	deserialize,
-	NanoGuid,
-} from "@tokilabs/lang";
+// TODO: Find another solution to replace @tokilabs/lang
+import { Type, requireByFQN, deserialize } from "@tokilabs/lang";
 
-import { AggregateRoot, Identity } from "../../domain";
+import { AggregateRoot } from "../../domain";
 import { EventEnvelope, IEvent } from "../";
 import { IEventStore } from ".";
 import { Constants } from "../../symbols";
-
-const debug = require("debug")("nes:eventStoreDB");
-
-// type eventType = event extends IEvent
+import { IIdentity } from "../../domain/identity/Identity.interface";
+import { UUID } from "../../domain/identity/providers/UUID";
+import { NanoId } from "../../domain/identity/providers/NanoId";
+import { UUIDIdentity } from "../../domain/identity/GuidIdentity";
+import logger from "../../utils/logger";
 
 @Injectable()
 export class EventStoreDB implements IEventStore {
@@ -27,8 +23,8 @@ export class EventStoreDB implements IEventStore {
 	) {}
 
 	public async save<
-		TId extends Guid | NanoGuid,
-		T extends AggregateRoot<Identity<TId>>
+		TId extends UUID | NanoId,
+		T extends AggregateRoot<IIdentity<TId>>
 	>(aggregate: T): Promise<number> {
 		return await this.saveEvents(
 			aggregate.constructor,
@@ -42,7 +38,7 @@ export class EventStoreDB implements IEventStore {
 
 	public async getEventsByAggregate(
 		aggregateType: Type,
-		aggregateId: Identity<Guid | NanoGuid>
+		aggregateId: IIdentity<UUID | NanoId>
 	): Promise<EventEnvelope[]> {
 		const events: EventEnvelope[] = [];
 		let currentSlice: EventStoreClient.StreamEventsSlice;
@@ -51,7 +47,7 @@ export class EventStoreDB implements IEventStore {
 
 		const conn = await this.connect();
 
-		debug(`Reading events stream ${streamName}`);
+		logger.info(`nes:eventStoreDB:: Reading events stream ${streamName}`);
 
 		do {
 			currentSlice = await conn.readStreamEventsForward(
@@ -64,7 +60,7 @@ export class EventStoreDB implements IEventStore {
 			events.push(...currentSlice.events.map((e) => this.convertToEnvelope(e)));
 		} while (!currentSlice.isEndOfStream);
 		conn.close();
-		debug(`Got the ${events.length} events`);
+		logger.info(`nes:eventStoreDB:: Got the ${events.length} events`);
 		return events;
 	}
 
@@ -76,7 +72,7 @@ export class EventStoreDB implements IEventStore {
 		const eventClass = requireByFQN(e.eventType);
 
 		return new EventEnvelope(
-			new Guid(e.eventId),
+			new UUIDIdentity(e.eventId),
 			metadata.aggregateType, // aggregateType
 			metadata.aggregateId, // aggregateId
 			e.eventNumber, // version
@@ -87,7 +83,7 @@ export class EventStoreDB implements IEventStore {
 		);
 	}
 
-	private saveEvents<TId extends Identity<Guid | NanoGuid>>(
+	private saveEvents<TId extends IIdentity<UUID | NanoId>>(
 		aggregateType: Type,
 		aggregateId: TId,
 		events: IEvent[],
@@ -100,7 +96,7 @@ export class EventStoreDB implements IEventStore {
 
 		const eventsData = events.map((evt) => {
 			const evtData = this.client.createJsonEventData(
-				new Guid().toString(),
+				new UUID().toString(),
 				evt,
 				{
 					aggregateType: aggregateType.name,
@@ -111,34 +107,35 @@ export class EventStoreDB implements IEventStore {
 			return evtData;
 		});
 
-		debug(`Saving events to stream ${streamName}`);
+		logger.info(`nes:eventStoreDB:: Saving events to stream ${streamName}`);
 
 		let nextVersion = expectedVersion;
 
 		return this.withConn<EventStoreClient.WriteResult[]>(
 			(connection): Promise<EventStoreClient.WriteResult[]> =>
-				eventsData.reduce(async (agg, event): Promise<
-					EventStoreClient.WriteResult[]
-				> => {
-					return agg.then(async (results): Promise<
-						EventStoreClient.WriteResult[]
-					> => {
-						return await connection
-							.appendToStream(streamName, nextVersion, event)
-							.then((result): EventStoreClient.WriteResult[] => {
-								nextVersion = result.nextExpectedVersion;
-								results.push(result);
-								return results;
-							});
-					});
-				}, Promise.resolve([]))
+				eventsData.reduce(
+					async (agg, event): Promise<EventStoreClient.WriteResult[]> => {
+						return agg.then(
+							async (results): Promise<EventStoreClient.WriteResult[]> => {
+								return await connection
+									.appendToStream(streamName, nextVersion, event)
+									.then((result): EventStoreClient.WriteResult[] => {
+										nextVersion = result.nextExpectedVersion;
+										results.push(result);
+										return results;
+									});
+							}
+						);
+					},
+					Promise.resolve([])
+				)
 		);
 	}
 
 	private async getEvents(
 		streamName: string,
 		start: number,
-		limit: number = 4096
+		limit = 4096
 	): Promise<EventStoreClient.StreamEventsSlice> {
 		return await this.withConn<EventStoreClient.StreamEventsSlice>(
 			async (conn) =>
@@ -164,7 +161,7 @@ export class EventStoreDB implements IEventStore {
 		return await conn.connect().then(() => conn);
 	}
 
-	private getStreamName<TId extends Identity<Guid | NanoGuid>>(
+	private getStreamName<TId extends IIdentity<UUID | NanoId>>(
 		type: Type,
 		id: TId
 	): string {

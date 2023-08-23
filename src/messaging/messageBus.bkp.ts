@@ -12,8 +12,9 @@ import {
 } from ".";
 import { plainToClass } from "class-transformer";
 import { Handle } from "../helpers";
+import logger from "../utils/logger";
 
-const debug = require("debug")("nes:messageBus");
+const debug = require("debug")();
 
 /* 
 	Need to get Nest Module ref so when it publishes a event it notifies all listeners
@@ -41,8 +42,8 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 	}
 
 	public subscribeToTopic(topic: string, handler: IHandlerFunction) {
-		debug(
-			`Registering handler for ${topic}:`,
+		logger.info(
+			`nes:messageBus:: Registering handler for ${topic}:`,
 			handler.constructor ? handler.constructor.name : handler.toString()
 		);
 
@@ -52,14 +53,18 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 	}
 
 	register(handlers: MessageHandlerType[]) {
+		console.log(handlers);
 		// IMPLEMENT ME SENPAI!!
 	}
 
-	public subscribe(evtClass: IMessage & Type<{}>, handler: Object) {
+	public subscribe(
+		evtClass: IMessage & Type<Record<string, any>>,
+		handler: object
+	) {
 		const evtName = evtClass.name;
 
-		debug(
-			`Registering handler for ${evtName}:`,
+		logger.info(
+			`nes:messageBus:: Registering handler for ${evtName}:`,
 			handler.constructor ? handler.constructor.name : handler.toString()
 		);
 
@@ -124,7 +129,11 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 		// this.subscriptions.forEach((subscription) => subscription.unsubscribe());
 	}
 
-	public unsubscribe(evtClass: IMessage & Type<{}>, handler: any) {
+	public unsubscribe(
+		evtClass: IMessage & Type<Record<string, any>>,
+		handler: any
+	) {
+		console.log(evtClass, handler);
 		throw new Error("Not implemented");
 	}
 }

@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
-import { ModuleRef } from "@nestjs/core";
+import { Inject, Injectable } from "@nestjs/common";
+import { ModuleRef, ModulesContainer } from "@nestjs/core";
 
 import {
 	IMessageBus,
@@ -7,8 +7,9 @@ import {
 	IMessageHandler,
 	MessageHandlerType,
 } from "./";
+import logger from "../utils/logger";
 
-const debug = require("debug")("nes:messageBus");
+import { Constants } from "../symbols";
 
 /**
  * The Message bus is mainly responsible for two things:
@@ -26,17 +27,17 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 	constructor(
 		serviceName: string,
 		transport: IMessageTransport,
-		private readonly moduleRef: ModuleRef
+		@Inject(Constants.ModuleRef) private readonly moduleRef: ModuleRef
 	) {
 		this.serviceName = serviceName;
 		this.transport = transport;
 	}
 
-	async publish<T extends MessageType>(message: T): Promise<any> {
+	publish<T extends MessageType>(message: T): Promise<any> {
 		const evtName = this.getMessageName(message);
-		debug(`Publishing event ${evtName}`);
+		logger.info(`Publishing event ${evtName}`);
 
-		this.transport.publish(`${this.serviceName}.${evtName}`, message);
+		return this.transport.publish(`${this.serviceName}.${evtName}`, message);
 	}
 
 	/**
@@ -45,7 +46,7 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 	 * Register handler of message Type to message bus.
 	 * @param handlers
 	 */
-	register(handlers: MessageHandlerType[], metadata: Symbol): void {
+	register(handlers: MessageHandlerType[], metadata: symbol): void {
 		handlers.forEach((handler) => this.registerHandler(handler, metadata));
 		// TODO: Understand the need to make the register handler protected
 	}
@@ -57,10 +58,12 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 	 * Register handler of message Type to message bus.
 	 * @param handlers
 	 */
-	private registerHandler(handler: MessageHandlerType, metadata: Symbol): void {
+	private registerHandler(handler: MessageHandlerType, metadata: symbol): void {
 		// Checking if there is any reference of this handler in the core module,
 		// this is needed for IOC
-		const instanceOfHandler = this.moduleRef.get(handler, { strict: false });
+		const instanceOfHandler = this.moduleRef.get(handler, {
+			strict: false,
+		});
 		if (!instanceOfHandler) return;
 
 		// Check metadata for handled event name

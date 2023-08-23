@@ -4,7 +4,7 @@ import { NanoId } from "./providers/NanoId";
 /**
  * Represents a unique identifier using a NanoId.
  */
-export class NanoGuidIdentity extends Identity<NanoId> {
+export class NanoIdentity extends Identity<NanoId> {
 	/**
 	 * Instantiates a new NanoGuidIdentity with a given guid.
 	 * @param guid The guid to use for this identity.

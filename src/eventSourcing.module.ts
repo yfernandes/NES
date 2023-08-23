@@ -5,6 +5,7 @@ import {
 	OnApplicationBootstrap,
 	Type,
 } from "@nestjs/common";
+// TODO: Find another solution to replace @tokilabs/lang
 import { FQN } from "@tokilabs/lang";
 import * as path from "path";
 
@@ -23,6 +24,7 @@ import {
 } from "./messaging";
 import { Constants, EventStore } from "./symbols";
 import { NesConfig } from "./config";
+import { ModuleRef, ModulesContainer } from "@nestjs/core";
 
 interface RegisterOptions {
 	/**
@@ -46,9 +48,9 @@ export class EventSourcingModule<EventBase extends IEvent = IEvent>
 {
 	constructor(
 		private readonly explorerService: ExplorerService<EventBase>,
-		private readonly eventsBus: EventBus,
-		@Inject(EventStore) private readonly eventStore: IEventStore
-	) {}
+		private readonly eventsBus: EventBus // @Inject(EventStore) private readonly eventStore: IEventStore,
+	) // @Inject(Constants.ModuleRef) private readonly moduleRef: ModuleRef
+	{}
 
 	onApplicationBootstrap() {
 		const { eventHandlers, projections } = this.explorerService.explore();
@@ -57,6 +59,7 @@ export class EventSourcingModule<EventBase extends IEvent = IEvent>
 	}
 
 	static register(options: RegisterOptions): DynamicModule {
+		console.log("Attempting to register");
 		if (!path.isAbsolute(options.appRoot)) {
 			new Error("Your appRoot MUST be an absolute path");
 		}
@@ -76,6 +79,7 @@ export class EventSourcingModule<EventBase extends IEvent = IEvent>
 		return {
 			module: EventSourcingModule,
 			providers: [
+				{ provide: Constants.ModuleRef, useValue: ModuleRef },
 				{
 					provide: Constants.MessageTransporter,
 					useFactory: () => {
@@ -91,7 +95,6 @@ export class EventSourcingModule<EventBase extends IEvent = IEvent>
 						}
 					},
 				},
-
 				{
 					provide: EventStore,
 					useFactory: () => {
@@ -109,6 +112,7 @@ export class EventSourcingModule<EventBase extends IEvent = IEvent>
 				},
 				ExplorerService,
 				EventBus,
+				ModulesContainer,
 			],
 			exports: [EventBus, EventStore],
 			global: true,

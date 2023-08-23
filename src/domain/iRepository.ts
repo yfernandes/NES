@@ -32,7 +32,7 @@ export const IRepository = Symbol("IRepository");
  * @typeparam TAggregate The type of aggregate root this repository works with
  * @typeparam TId The type of the aggregate root's ID
  */
-export interface IRepository<TAggregate extends IAggregateRoot, TId> {
+export interface IRepository<TAggregate extends IAggregateRoot<any>, TId> {
 	/**
 	 * Gets an aggregate root by its ID
 	 * @param id The ID of the aggregate root to get

@@ -1,17 +1,20 @@
+// TODO: Find another solution to replace @tokilabs/lang
 import { ConcreteType, requireByFQN } from "@tokilabs/lang";
 import { Exclude, plainToClass } from "class-transformer";
 
 import { Constants } from "../symbols";
 import { NesConfig } from "../config";
-import { Identity, IIdentity, NanoGuidIdentity } from "./identity";
+
 import { Apply } from "../helpers";
 import { EventEnvelope, IEvent } from "../eventSourcing";
 import { Entity } from "./entity";
+import { IIdentity } from "./identity/Identity.interface";
+import { NanoIdentity } from "./identity/NanoIdentity";
 
 const APPLY_CHANGE = Symbol("@cashfarm/plow:ESAggregate.APPLY_CHANGE");
 const LOAD_FROM_EVENTS = Symbol("@cashfarm/plow:ESAggregate.LOAD_FROM_EVENTS");
 
-export interface IAggregateRoot<TId extends IIdentity<any> = NanoGuidIdentity> {
+export interface IAggregateRoot<TId extends IIdentity<any> = NanoIdentity> {
 	readonly id: TId;
 	readonly version: number;
 	readonly uncommittedChanges: IEvent[];
@@ -27,7 +30,7 @@ export interface IAggregateRoot<TId extends IIdentity<any> = NanoGuidIdentity> {
  * You can optionally set the config option `requireApplyForEachEvent` to false,
  * define a `defaultApplyFn` also in NES config and have your events automatically applied
  */
-export class AggregateRoot<TId extends Identity<any> = NanoGuidIdentity>
+export class AggregateRoot<TId extends IIdentity<any> = NanoIdentity>
 	extends Entity<TId>
 	implements IAggregateRoot<TId>
 {
@@ -39,7 +42,7 @@ export class AggregateRoot<TId extends Identity<any> = NanoGuidIdentity>
 	protected _events: IEvent[] = [];
 
 	@Exclude()
-	private _version: number = -1;
+	private _version = -1;
 
 	public static load<T extends AggregateRoot<any>>(
 		constructor: ConcreteType<T>,
@@ -57,12 +60,12 @@ export class AggregateRoot<TId extends Identity<any> = NanoGuidIdentity>
 		t._version = -1;
 		t._events = [];
 
-		const mappedEvents = events.map((ee) => {
+		const mappedEvents = events.map((eventEnvelope) => {
 			// Get the event class
-			const klass = requireByFQN(ee.eventType);
+			const klass = requireByFQN(eventEnvelope.eventType);
 
 			// deserialize to a class instance
-			return plainToClass(klass, ee.event);
+			return plainToClass(klass, eventEnvelope.event);
 		});
 
 		t[LOAD_FROM_EVENTS](mappedEvents);
@@ -117,7 +120,7 @@ export class AggregateRoot<TId extends Identity<any> = NanoGuidIdentity>
 		const evtName =
 			Reflect.getMetadata(Constants.EventName, eventClass) || eventClass.name;
 
-		let applyMethod = Apply(eventClass);
+		const applyMethod = Apply(eventClass);
 
 		if (this[applyMethod] instanceof Function) {
 			this[applyMethod](event);

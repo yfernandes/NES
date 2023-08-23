@@ -1,38 +1,31 @@
 import { ValueObject } from "./valueObject";
 
-class TestVO extends ValueObject<TestVO> {
-	public readonly name: string;
-	public readonly value: number;
-
-	constructor(name: string, value: number) {
-		super(TestVO, ["name", "value"]);
+// Let's create a simple class extending ValueObject for testing.
+class Point extends ValueObject<Point> {
+	constructor(public x: number, public y: number) {
+		super(Point, ["x", "y"]);
 	}
 
-	public setName(name: string) {
-		return this.newInstanceWith({ name });
-	}
-
-	public setValue(value: number) {
-		return this.newInstanceWith({ value });
+	public update(updatedProps: Partial<Point>): Point {
+		return this.newInstanceWith(updatedProps);
 	}
 }
 
 describe("ValueObject", () => {
-	test("Updating a ValueObject property should return a new, modified, instance.", () => {
-		const tvo = new TestVO("Some Name", 1);
+	it("should create a new instance with updated properties", () => {
+		const point1 = new Point(10, 20);
+		const point2 = point1.update({ x: 30 });
 
-		expect(tvo.setName("Another name")).not.toBe(tvo);
+		expect(point2.x).toEqual(30);
+		expect(point2.y).toEqual(20);
 	});
 
-	test("When updating a property other properties stay the same", () => {
-		const tvo = new TestVO("Some Name", 1);
-		const tvoNewName = new TestVO("Another Name", 1);
-		const tvoNewVal = new TestVO("Some Name", 2);
+	it("should compare two ValueObjects correctly", () => {
+		const point1 = new Point(10, 20);
+		const point2 = new Point(10, 20);
+		const point3 = new Point(30, 20);
 
-		expect(tvo.setName("Another Name")).toEqual(tvoNewName);
-
-		expect(tvo.setValue(2)).toEqual(tvoNewVal);
-
-		expect(tvo).toEqual(new TestVO("Some Name", 1));
+		expect(point1.equals(point2)).toEqual(true);
+		expect(point1.equals(point3)).toEqual(false);
 	});
 });

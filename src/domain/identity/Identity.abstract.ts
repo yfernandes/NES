@@ -29,7 +29,7 @@ export abstract class Identity<TId> implements IIdentity<TId> {
 	 * @return {boolean} Returns true if the two instances are equal, false otherwise.
 	 */
 	public equals(other: IIdentity<TId>): boolean {
-		return this === other || this._value === other._value;
+		return this === other || this._value === other.value;
 	}
 
 	/**

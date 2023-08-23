@@ -1,8 +1,3 @@
-const ConstructorParams = Symbol.for(
-	"nestjs-eventsourcing:ValueObject.ConstructorParams"
-);
-const Constructor = Symbol.for("nestjs-eventsourcing:ValueObject.Constructor");
-
 /**
  * Base class for implementing Value Objects
  *
@@ -23,28 +18,33 @@ export class ValueObject<TObject> {
 	 */
 	constructor(
 		private construct: new (...args: any[]) => TObject,
-		constructParams: (keyof TObject)[]
-	) {
-		this[Constructor] = construct;
-		this[ConstructorParams] = constructParams;
-	}
+		private constructorParameters: (keyof TObject)[]
+	) {}
 
+	/**
+	 * Checks whether this ValueObject is equal to another ValueObject.
+	 *
+	 * @param {ValueObject<TObject>} other - the ValueObject to compare to
+	 * @return {boolean} true if this ValueObject is equal to the other, false otherwise
+	 */
 	public equals(other: ValueObject<TObject>): boolean {
-		return !Object.keys(this).some((prop) => {
-			// return true if prop is different
-			if (typeof this[prop].equals === "function") {
-				return !this[prop].equals(other[prop]);
-			}
-
-			return this[prop] !== other[prop];
+		return !this.constructorParameters.some((prop) => {
+			return (this as any)[prop] !== (other as any)[prop];
 		});
 	}
-
+	/**
+	 * Creates a new instance of the current object with updated properties.
+	 *
+	 * @param {Partial<TObject>} updatedProps - An object containing updated properties.
+	 * @return {TObject} - A new instance of the current object with the updated properties.
+	 */
 	protected newInstanceWith(updatedProps: Partial<TObject>): TObject {
-		return new this[Constructor](
-			...(<any[]>this[ConstructorParams]).map((p) =>
-				updatedProps.hasOwnProperty(p) ? updatedProps[p] : (<any>this)[p]
-			)
+		const parameters = this.constructorParameters.map((p) =>
+			Object.prototype.hasOwnProperty.call(updatedProps, p)
+				? updatedProps[p]
+				: (this as any)[p]
 		);
+
+		return new this.construct(...parameters);
 	}
 }

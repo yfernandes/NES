@@ -1,4 +1,5 @@
-import { AggregateRoot, NanoGuidIdentity } from "../../domain";
+import { AggregateRoot } from "../../domain";
+import { NanoIdentity } from "../../domain/identity/NanoIdentity";
 import { EventStoreDB } from "./eventStoreDB";
 import { createConnection, createJsonEventData } from "node-eventstore-client";
 
@@ -16,7 +17,7 @@ jest.mock("node-eventstore-client", () => {
 describe("EventStoreDB", () => {
 	class SampleAggregateRoot extends AggregateRoot {
 		constructor() {
-			super(new NanoGuidIdentity());
+			super(new NanoIdentity());
 			this.applyChange({ id: this.id });
 		}
 	}
