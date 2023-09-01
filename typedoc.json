@@ -1,0 +1,7 @@
+{
+	"$schema": "https://typedoc.org/schema.json",
+	"name": "NES - NestJs Event Sourcing",
+	"entryPoints": ["./src/index.ts"],
+	"out": "doc",
+	"pretty": true
+}
