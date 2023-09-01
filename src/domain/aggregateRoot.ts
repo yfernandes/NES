@@ -44,6 +44,15 @@ export class AggregateRoot<TId extends IIdentity<any> = NanoIdentity>
 	@Exclude()
 	private _version = -1;
 
+	/**
+	 * Generates a new instance of the specified aggregate root class
+	 * by loading events from the given array of event envelopes.
+	 *
+	 * @param {ConcreteType<T>} constructor - The concrete type of the aggregate root class.
+	 * @param {EventEnvelope[]} events - The array of event envelopes to load.
+	 * @throws {Error} Throws an error if the events parameter is an empty array.
+	 * @returns {T} The new instance of the aggregate root class.
+	 */
 	public static load<T extends AggregateRoot<any>>(
 		constructor: ConcreteType<T>,
 		events: EventEnvelope[]
@@ -73,19 +82,40 @@ export class AggregateRoot<TId extends IIdentity<any> = NanoIdentity>
 		return t;
 	}
 
+	/**
+	 * Get the version of the object.
+	 *
+	 * @return {number} The version number.
+	 */
 	get version(): number {
 		return this._version;
 	}
 
+	/**
+	 * Returns the array of uncommitted changes.
+	 *
+	 * @return {IEvent[]} The array of uncommitted changes.
+	 */
 	get uncommittedChanges(): IEvent[] {
 		return this._events;
 	}
 
+	/**
+	 * Marks the changes as committed by incrementing the version number and clearing the events array.
+	 *
+	 * @param {type} paramName - description of parameter
+	 * @return {type} description of return value
+	 */
 	public markChangesAsCommitted() {
 		this._version += this._events.length;
 		this._events.length = 0;
 	}
 
+	/**
+	 * Applies a change by calling the [APPLY_CHANGE] method with the given event.
+	 *
+	 * @param {IEvent} event - The event object representing the change to apply.
+	 */
 	protected applyChange(event: IEvent) {
 		this[APPLY_CHANGE](event, true);
 	}

@@ -22,9 +22,15 @@ export class EventStoreDB implements IEventStore {
 		private settings: EventStoreClient.ConnectionSettings = {}
 	) {}
 
+	/**
+	 * Saves an aggregate root to the database.
+	 *
+	 * @param {T} aggregate - The aggregate root to be saved.
+	 * @return {Promise<number>} - A promise that resolves to the next expected version of the aggregate root.
+	 */
 	public async save<
 		TId extends UUID | NanoId,
-		T extends AggregateRoot<IIdentity<TId>>
+		T extends AggregateRoot<IIdentity<TId>>,
 	>(aggregate: T): Promise<number> {
 		return await this.saveEvents(
 			aggregate.constructor,
@@ -36,6 +42,13 @@ export class EventStoreDB implements IEventStore {
 		);
 	}
 
+	/**
+	 * Retrieves a list of events by aggregate.
+	 *
+	 * @param {Type} aggregateType - The type of the aggregate.
+	 * @param {IIdentity<UUID | NanoId>} aggregateId - The ID of the aggregate.
+	 * @return {Promise<EventEnvelope[]>} A promise that resolves to an array of event envelopes.
+	 */
 	public async getEventsByAggregate(
 		aggregateType: Type,
 		aggregateId: IIdentity<UUID | NanoId>
@@ -64,6 +77,12 @@ export class EventStoreDB implements IEventStore {
 		return events;
 	}
 
+	/**
+	 * Converts a resolved event from the event store to an event envelope.
+	 *
+	 * @param {EventStoreClient.ResolvedEvent} event - The resolved event to convert.
+	 * @return {EventEnvelope} The converted event envelope.
+	 */
 	private convertToEnvelope(
 		event: EventStoreClient.ResolvedEvent
 	): EventEnvelope {
@@ -83,6 +102,15 @@ export class EventStoreDB implements IEventStore {
 		);
 	}
 
+	/**
+	 * Saves events to the event store for a given aggregate.
+	 *
+	 * @param {Type} aggregateType - The type of the aggregate.
+	 * @param {TId extends IIdentity<UUID | NanoId>} aggregateId - The ID of the aggregate.
+	 * @param {IEvent[]} events - The events to be saved.
+	 * @param {number} expectedVersion - The expected version of the aggregate.
+	 * @return {Promise<EventStoreClient.WriteResult[]>} - The results of the save operation.
+	 */
 	private saveEvents<TId extends IIdentity<UUID | NanoId>>(
 		aggregateType: Type,
 		aggregateId: TId,
@@ -132,6 +160,14 @@ export class EventStoreDB implements IEventStore {
 		);
 	}
 
+	/**
+	 * Retrieves a slice of events from the specified stream.
+	 *
+	 * @param {string} streamName - The name of the stream to read events from.
+	 * @param {number} start - The starting position of the events to retrieve.
+	 * @param {number} [limit=4096] - The maximum number of events to retrieve. Defaults to 4096.
+	 * @return {Promise<EventStoreClient.StreamEventsSlice>} - A promise that resolves to a slice of events from the stream.
+	 */
 	private async getEvents(
 		streamName: string,
 		start: number,
@@ -143,6 +179,12 @@ export class EventStoreDB implements IEventStore {
 		);
 	}
 
+	/**
+	 * Executes the given function with a connection, and returns its result.
+	 *
+	 * @param {Function} func - The function to be executed with a connection.
+	 * @return {Promise<T>} - The result of the function.
+	 */
 	private async withConn<T>(
 		func: (conn: EventStoreClient.EventStoreNodeConnection) => Promise<T>
 	): Promise<T> {
@@ -152,6 +194,11 @@ export class EventStoreDB implements IEventStore {
 		return res;
 	}
 
+	/**
+	 * Connects to the EventStore node.
+	 *
+	 * @return {Promise<EventStoreClient.EventStoreNodeConnection>} A promise that resolves to the EventStore node connection.
+	 */
 	private async connect(): Promise<EventStoreClient.EventStoreNodeConnection> {
 		const conn = this.client.createConnection(
 			this.settings,
@@ -161,6 +208,13 @@ export class EventStoreDB implements IEventStore {
 		return await conn.connect().then(() => conn);
 	}
 
+	/**
+	 * Generates the stream name for a given type and ID.
+	 *
+	 * @param {Type} type - The type of the object.
+	 * @param {TId} id - The ID of the object.
+	 * @return {string} The generated stream name.
+	 */
 	private getStreamName<TId extends IIdentity<UUID | NanoId>>(
 		type: Type,
 		id: TId

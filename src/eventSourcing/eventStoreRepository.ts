@@ -11,7 +11,7 @@ const debug = require("debug")("nes:events:repository");
 @Injectable()
 export class EventStoreRepository<
 	TAggregate extends AggregateRoot<TId>,
-	TId extends IIdentity<any> = NanoIdentity
+	TId extends IIdentity<any> = NanoIdentity,
 > implements IRepository<TAggregate, TId>
 {
 	public constructor(
@@ -20,6 +20,12 @@ export class EventStoreRepository<
 		protected readonly eventBus: EventBus
 	) {}
 
+	/**
+	 * Saves the given aggregate and returns a promise that resolves to an array of events.
+	 *
+	 * @param {TAggregate} aggregate - The aggregate to be saved.
+	 * @return {Promise<IEvent[]>} A promise that resolves to an array of events.
+	 */
 	public save(aggregate: TAggregate): Promise<IEvent[]> {
 		return this.storage.save(aggregate).then((nextVersion) => {
 			const events = aggregate.uncommittedChanges.slice();
@@ -34,6 +40,12 @@ export class EventStoreRepository<
 		});
 	}
 
+	/**
+	 * Retrieves an aggregate by its ID.
+	 *
+	 * @param {TId} id - The ID of the aggregate.
+	 * @return {Promise<TAggregate>} A promise that resolves to the retrieved aggregate, or null if no aggregate is found.
+	 */
 	public async getById(id: TId): Promise<TAggregate> {
 		debug(`Getting aggregate of ${this.aggregateClass.name} with id ${id}`);
 

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ModuleRef, ModulesContainer } from "@nestjs/core";
+import { ModuleRef } from "@nestjs/core";
 
 import {
 	IMessageBus,
@@ -33,6 +33,12 @@ export class MessageBus<MessageType> implements IMessageBus<MessageType> {
 		this.transport = transport;
 	}
 
+	/**
+	 * Publishes a message of type T to the transport.
+	 *
+	 * @param {T} message - The message to be published.
+	 * @return {Promise<any>} A promise that resolves when the message is published.
+	 */
 	publish<T extends MessageType>(message: T): Promise<any> {
 		const evtName = this.getMessageName(message);
 		logger.info(`Publishing event ${evtName}`);
