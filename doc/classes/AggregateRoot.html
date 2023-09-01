@@ -39,7 +39,7 @@ define a <code>defaultApplyFn</code> also in NES config and have your events aut
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IAggregateRoot.html" class="tsd-signature-type tsd-kind-interface">IAggregateRoot</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TId</span><span class="tsd-signature-symbol">&gt;</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L33">apps/NES/src/domain/aggregateRoot.ts:33</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L33">apps/NES/src/domain/aggregateRoot.ts:33</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -88,19 +88,19 @@ define a <code>defaultApplyFn</code> also in NES config and have your events aut
 <h4 class="tsd-returns-title">Returns <a href="AggregateRoot.html" class="tsd-signature-type tsd-kind-class">AggregateRoot</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TId</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Entity.html">Entity</a>.<a href="Entity.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/entity.ts#L25">apps/NES/src/domain/entity.ts:25</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/entity.ts#L25">apps/NES/src/domain/entity.ts:25</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_events" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_events</span><a href="#_events" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_events</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/IEvent.html" class="tsd-signature-type tsd-kind-interface">IEvent</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L42">apps/NES/src/domain/aggregateRoot.ts:42</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L42">apps/NES/src/domain/aggregateRoot.ts:42</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_version" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_version</span><a href="#_version" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_version</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L45">apps/NES/src/domain/aggregateRoot.ts:45</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L45">apps/NES/src/domain/aggregateRoot.ts:45</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="id" class="tsd-anchor"></a>
@@ -115,25 +115,33 @@ define a <code>defaultApplyFn</code> also in NES config and have your events aut
 <p>Implementation of <a href="../interfaces/IAggregateRoot.html">IAggregateRoot</a>.<a href="../interfaces/IAggregateRoot.html#id">id</a></p>
 <p>Inherited from Entity.id</p>
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/entity.ts#L35">apps/NES/src/domain/entity.ts:35</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/entity.ts#L35">apps/NES/src/domain/entity.ts:35</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="uncommittedChanges" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>uncommitted<wbr/>Changes</span><a href="#uncommittedChanges" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="uncommittedChanges.uncommittedChanges-1"><span class="tsd-signature-symbol">get</span> uncommittedChanges<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/IEvent.html" class="tsd-signature-type tsd-kind-interface">IEvent</a><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <a href="../interfaces/IEvent.html" class="tsd-signature-type tsd-kind-interface">IEvent</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"><p>Returns the array of uncommitted changes.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="../interfaces/IEvent.html" class="tsd-signature-type tsd-kind-interface">IEvent</a><span class="tsd-signature-symbol">[]</span></h4><p>The array of uncommitted changes.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IAggregateRoot.html">IAggregateRoot</a>.<a href="../interfaces/IAggregateRoot.html#uncommittedChanges">uncommittedChanges</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L80">apps/NES/src/domain/aggregateRoot.ts:80</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L99">apps/NES/src/domain/aggregateRoot.ts:99</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="version" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>version</span><a href="#version" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="version.version-1"><span class="tsd-signature-symbol">get</span> version<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"><p>Get the version of the object.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>The version number.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IAggregateRoot.html">IAggregateRoot</a>.<a href="../interfaces/IAggregateRoot.html#version">version</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L76">apps/NES/src/domain/aggregateRoot.ts:76</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L90">apps/NES/src/domain/aggregateRoot.ts:90</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_APPLY_CHANGE_" class="tsd-anchor"></a>
@@ -159,7 +167,7 @@ define a <code>defaultApplyFn</code> also in NES config and have your events aut
 <h4>Memberof</h4><p>ESAggregateRoot</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L101">apps/NES/src/domain/aggregateRoot.ts:101</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L131">apps/NES/src/domain/aggregateRoot.ts:131</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_LOAD_FROM_EVENTS_" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>[LOAD_<wbr/>FROM_<wbr/>EVENTS]</span><a href="#_LOAD_FROM_EVENTS_" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-private">
@@ -179,34 +187,46 @@ define a <code>defaultApplyFn</code> also in NES config and have your events aut
 <h4>Memberof</h4><p>ESAggregateRoot</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L159">apps/NES/src/domain/aggregateRoot.ts:159</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L189">apps/NES/src/domain/aggregateRoot.ts:189</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="applyChange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>apply<wbr/>Change</span><a href="#applyChange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
 <li class="tsd-signature tsd-anchor-link" id="applyChange.applyChange-1"><span class="tsd-kind-call-signature">apply<wbr/>Change</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#applyChange.applyChange-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Applies a change by calling the [APPLY_CHANGE] method with the given event.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">event</span>: <a href="../interfaces/IEvent.html" class="tsd-signature-type tsd-kind-interface">IEvent</a></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<h5><span class="tsd-kind-parameter">event</span>: <a href="../interfaces/IEvent.html" class="tsd-signature-type tsd-kind-interface">IEvent</a></h5>
+<div class="tsd-comment tsd-typography"><p>The event object representing the change to apply.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L89">apps/NES/src/domain/aggregateRoot.ts:89</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L119">apps/NES/src/domain/aggregateRoot.ts:119</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="markChangesAsCommitted" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>mark<wbr/>Changes<wbr/>As<wbr/>Committed</span><a href="#markChangesAsCommitted" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="markChangesAsCommitted.markChangesAsCommitted-1"><span class="tsd-kind-call-signature">mark<wbr/>Changes<wbr/>As<wbr/>Committed</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#markChangesAsCommitted.markChangesAsCommitted-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"><p>Marks the changes as committed by incrementing the version number and clearing the events array.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><p>description of return value</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IAggregateRoot.html">IAggregateRoot</a>.<a href="../interfaces/IAggregateRoot.html#markChangesAsCommitted">markChangesAsCommitted</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L84">apps/NES/src/domain/aggregateRoot.ts:84</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L109">apps/NES/src/domain/aggregateRoot.ts:109</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="load" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>load</span><a href="#load" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="load.load-1"><span class="tsd-kind-call-signature">load</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">constructor</span>, <span class="tsd-kind-parameter">events</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#load.load-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Generates a new instance of the specified aggregate root class
+by loading events from the given array of event envelopes.</p>
+</div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
@@ -216,12 +236,20 @@ define a <code>defaultApplyFn</code> also in NES config and have your events aut
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">constructor</span>: <span class="tsd-signature-type ">ConcreteType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5></li>
+<h5><span class="tsd-kind-parameter">constructor</span>: <span class="tsd-signature-type ">ConcreteType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<div class="tsd-comment tsd-typography"><p>The concrete type of the aggregate root class.</p>
+</div></li>
 <li>
-<h5><span class="tsd-kind-parameter">events</span>: <a href="EventEnvelope.html" class="tsd-signature-type tsd-kind-class">EventEnvelope</a><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><aside class="tsd-sources">
+<h5><span class="tsd-kind-parameter">events</span>: <a href="EventEnvelope.html" class="tsd-signature-type tsd-kind-class">EventEnvelope</a><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>The array of event envelopes to load.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The new instance of the aggregate root class.</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>Throws an error if the events parameter is an empty array.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/yfernandes/NES/blob/72b6d77/src/domain/aggregateRoot.ts#L47">apps/NES/src/domain/aggregateRoot.ts:47</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/yfernandes/NES/blob/bc18c92/src/domain/aggregateRoot.ts#L56">apps/NES/src/domain/aggregateRoot.ts:56</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
